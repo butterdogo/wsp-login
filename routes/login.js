@@ -14,18 +14,24 @@ router.get("/", async (req, res) =>{
 
 
 router.post("/", async (req, res) => {
-  const {username, password} = req.body
+  const {username, password } = req.body
 
-  const dbpassword = await pool.promise().query('Select password FROM login WHERE name = ?', [username])
+  const [dbpassword] = await pool.promise().query('Select password FROM login WHERE name = ?', [username])
 
-  bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
-    if (result == true){
-      
-    }
-    else{
+  if (dbpassword.length == 0) {
+    
+  } else{
+    bcrypt.compare(password, dbpassword, function(err, result) {
+      if (result == true){
+        
+      }
+      else{
+  
+      }
+  });
+  }
 
-    }
-});
+
 
 
 
