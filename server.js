@@ -5,8 +5,8 @@ import morgan from "morgan"
 import logger from "morgan"
 import bcrypt from "bcrypt"
 import session from "express-session"
-
-
+import indexRouter from "./routes/index.js"
+import loginRouter from "./routes/login.js"
 
 
 
@@ -19,6 +19,9 @@ nunjucks.configure("views", {
 })
 
 app.use(logger("dev"))
+app.use("/", indexRouter)
+app.use("/", loginRouter)
+
 
 app.use(session({
   secret: "keyboard cat",
@@ -29,11 +32,7 @@ app.use(session({
 
 app.use(express.static("public"))
 
-app.get("/", (req, res) => {
-  res.render("index.njk",
-    { title: "Qvixter", message: "Best service, legit." }
-  )
-})
+
 
 let myPlaintextPassword = "detlösenordsomduvillha"
 bcrypt.hash(myPlaintextPassword, 10, function(err, hash) {
