@@ -3,7 +3,14 @@
 {% block content %}
 <main>
   <h1>Login page</h1>
-  <p>{{ message }}</p>
+
+  <form action="/login" method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+    <label for="password">Password</label>
+    <input type="text" name="password" id="password">
+    <button type="submit">Login</button>
+
   <a href="/">back</a>
 </main>
 {% endblock %}

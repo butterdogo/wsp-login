@@ -4,6 +4,7 @@ import nunjucks from "nunjucks"
 import morgan from "morgan"
 import logger from "morgan"
 import bcrypt from "bcrypt"
+import bodyParser from "body-parser"
 import session from "express-session"
 import indexRouter from "./routes/index.js"
 import loginRouter from "./routes/login.js"
@@ -18,11 +19,6 @@ nunjucks.configure("views", {
   express: app,
 })
 
-app.use(logger("dev"))
-app.use("/", indexRouter)
-app.use("/", loginRouter)
-
-
 app.use(session({
   secret: "keyboard cat",
   resave: false,
@@ -31,14 +27,12 @@ app.use(session({
 }))
 
 app.use(express.static("public"))
+app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(logger("dev"))
+app.use("/", indexRouter)
+app.use("/login", loginRouter)
 
-
-let myPlaintextPassword = "detlösenordsomduvillha"
-bcrypt.hash(myPlaintextPassword, 10, function(err, hash) {
-	// här får vi nu tag i lösenordets hash i variabeln hash
-	console.log(hash)
-})
 
 
 
