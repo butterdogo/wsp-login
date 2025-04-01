@@ -6,6 +6,10 @@ import pool from "../db.js"
 
 const router = express.Router()
 
+
+
+
+
 router.get("/", async (req, res) =>{
 
     res.render("login.njk",{
@@ -23,6 +27,7 @@ router.post("/", async (req, res) => {
   bcrypt.compare(password, dbpassword[0].password, function(err, result) {
       if (result == true){
         console.log("rätt")
+        req.session.loggedin = true
         res.redirect("/")
       }
       else{
@@ -37,6 +42,7 @@ router.post("/", async (req, res) => {
 
 
 })
+
 
 
 

@@ -19,6 +19,10 @@ nunjucks.configure("views", {
   express: app,
 })
 
+
+
+app.use(express.static("public"))
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
   secret: "keyboard cat",
   resave: false,
@@ -26,15 +30,23 @@ app.use(session({
   cookie: { sameSite: true }
 }))
 
-app.use(express.static("public"))
-app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(logger("dev"))
 app.use("/", indexRouter)
 app.use("/login", loginRouter)
 app.use("/newuser", newuserRouter)
 
 
+
+app.get("/", (req, res) => {
+  if (req.session.views) {
+    req.session.views++
+  } else {
+    req.session.views = 1
+  }
+  res.render("index.njk",
+    { title: "Test", message: "Funkar?", views: req.session.views }
+  )
+})
 
 
 

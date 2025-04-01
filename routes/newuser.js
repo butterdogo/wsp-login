@@ -14,8 +14,6 @@ router.get("/", async (req, res) => {
 router.post('/', async (req, res) => {
     const { name, password } = req.body
 
-    console.log(req.body)
-    
     bcrypt.hash(password, 10, async(err, hash) => {
         // här får vi nu tag i lösenordets hash i variabeln hash
         console.log(hash)
@@ -24,9 +22,7 @@ router.post('/', async (req, res) => {
     })
   
    
-   
-
-    res.redirect("/")
+   res.redirect("/login")
    
 })
 
