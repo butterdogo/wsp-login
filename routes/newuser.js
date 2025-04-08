@@ -1,6 +1,7 @@
 import express from "express"
 import pool from "../db.js"
 import bcrypt from "bcrypt"
+import db from "../db-sqlite.js"
 
 const router = express.Router()
 
@@ -18,7 +19,7 @@ router.post('/', async (req, res) => {
         // här får vi nu tag i lösenordets hash i variabeln hash
         console.log(hash)
         
-        const [result] = await pool.promise().query('INSERT INTO login (name, password) VALUES (?, ?)', [name, hash])
+        const result = await db.all('INSERT INTO login (name, password) VALUES (?, ?)', name, hash)
     })
   
    
