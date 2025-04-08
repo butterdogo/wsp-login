@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 
 router.get("/loggedin", (req, res) =>{
 
-if (req.session.loggedin = true) {
+if (req.session.loggedin === true) {
   res.render("loggedin.njk")
 } else{
   res.redirect("/")
@@ -19,11 +19,15 @@ if (req.session.loggedin = true) {
 
 })
 
-router.get("/logout", (req, res) =>{
-  
-  get.session.loggedin = false
-  res.redirect("/")
+router.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error("Session destruction error:", err);
+      return res.status(500).send("Kunde inte logga ut.");
+    }
+    res.redirect("/");
+  });
+});
 
-})
 
 export default router
